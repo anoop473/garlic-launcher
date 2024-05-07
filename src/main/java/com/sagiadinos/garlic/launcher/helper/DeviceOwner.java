@@ -53,7 +53,7 @@ public class DeviceOwner
 
     public static final String LAUNCHER_PACKAGE_NAME = "com.sagiadinos.garlic.launcher";
     public static final String PLAYER_PACKAGE_NAME = "com.sagiadinos.garlic.player";
-    public static final String USB_DEBUGGING_PACKAGE = "com.android.systemui.usb";
+    public static final String USB_DEBUGGING_PACKAGE = "com.android.systemui";
 
     public DeviceOwner(DevicePolicyManager dpm, ComponentName da, ComponentName activity, IntentFilter filter)
     {
