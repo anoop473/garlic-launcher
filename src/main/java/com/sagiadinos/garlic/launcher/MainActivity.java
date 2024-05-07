@@ -295,7 +295,6 @@ public class MainActivity extends Activity
     {
         btToggleServiceMode  = findViewById(R.id.btToggleServiceMode);
         btStartPlayer        = findViewById(R.id.btStartPlayer);
-        Button btAdminConfiguration = findViewById(R.id.btAdminConfiguration);
         Button btAndroidSettings    = findViewById(R.id.btAndroidSettings);
 
         if (MyMainConfiguration.isPlayerInstalled())
@@ -314,12 +313,9 @@ public class MainActivity extends Activity
         {
             btStartPlayer.setEnabled(false);
             btToggleServiceMode.setText(R.string.enter_service_mode);
-            btAdminConfiguration.setVisibility(View.GONE);
-            btAndroidSettings.setVisibility(View.GONE);
         }
         else
         {
-            btAdminConfiguration.setVisibility(View.VISIBLE);
             btStartPlayer.setEnabled(true);
             btToggleServiceMode.setText(R.string.enter_strict_mode);
             btAndroidSettings.setVisibility(View.VISIBLE);
