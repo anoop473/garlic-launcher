@@ -454,13 +454,7 @@ public class MainActivity extends Activity
     public void configAdmin(View view)
     {
         stopPlayerRestart();
-        Intent intent = getPackageManager().getLaunchIntentForPackage("com.android.providers.settings");
-        if (intent == null)
-        {
-            displayInformationText("com.android.bbbbbbb.settings do not exist");
-            return;
-        }
-        startActivity(intent);
+        startActivity(new Intent(this, ActivityConfigAdmin.class));
     }
 
     public void openAndroidSettings(View view)
