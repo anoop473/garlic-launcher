@@ -53,6 +53,7 @@ public class DeviceOwner
 
     public static final String LAUNCHER_PACKAGE_NAME = "com.sagiadinos.garlic.launcher";
     public static final String PLAYER_PACKAGE_NAME = "com.sagiadinos.garlic.player";
+    public static final String USB_DEBUGGING_PACKAGE = "com.android.systemui.usb";
 
     public DeviceOwner(DevicePolicyManager dpm, ComponentName da, ComponentName activity, IntentFilter filter)
     {
@@ -172,11 +173,11 @@ public class DeviceOwner
         }
         if (second_app_name.isEmpty())
         {
-            s = new String[]{DeviceOwner.LAUNCHER_PACKAGE_NAME, DeviceOwner.PLAYER_PACKAGE_NAME};
+            s = new String[]{DeviceOwner.LAUNCHER_PACKAGE_NAME, DeviceOwner.PLAYER_PACKAGE_NAME, DeviceOwner.USB_DEBUGGING_PACKAGE};
         }
         else
         {
-            s = new String[]{LAUNCHER_PACKAGE_NAME, PLAYER_PACKAGE_NAME, second_app_name};
+            s = new String[]{LAUNCHER_PACKAGE_NAME, PLAYER_PACKAGE_NAME, USB_DEBUGGING_PACKAGE, second_app_name};
         }
         // Todo Later Clear or add functionality
         MyDevicePolicyManager.setLockTaskPackages(MyDeviceAdmin, s);
