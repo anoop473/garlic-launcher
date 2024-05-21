@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CleanUpTest
 {
     File work_dir;
+    DiscSpace ds = null;
     final static String CLEANUP_TEST_PATH = "sampledata/testCleanUp";
     final static String CLEANUP_TEST_CACHE_PATH = "sampledata/testCleanUp/garlic-player/cache";
 
@@ -70,7 +71,7 @@ class CleanUpTest
         File dir1 = createDirectory("garlic-player.apk.uiuiui");
         File dir2 = createDirectory("dir dir dir");
 
-        CleanUp MyTestClass = new CleanUp(CLEANUP_TEST_PATH);
+        CleanUp MyTestClass = new CleanUp(CLEANUP_TEST_PATH, ds);
 
         MyTestClass.removePlayerApks();
 
@@ -97,7 +98,7 @@ class CleanUpTest
         File dir1 = createDirectory("config_dir.xml");
         File dir2 = createDirectory("adirdirdir");
 
-        CleanUp MyTestClass = new CleanUp(CLEANUP_TEST_PATH);
+        CleanUp MyTestClass = new CleanUp(CLEANUP_TEST_PATH, ds);
 
         MyTestClass.removeXMLFiles();
 
@@ -115,7 +116,7 @@ class CleanUpTest
     void removeFromNotExistingDirectory() throws IOException
     {
         File xml1 = createFile("garlic-player.xml");
-        CleanUp MyTestClass = new CleanUp("this directory not exists");
+        CleanUp MyTestClass = new CleanUp("this directory not exists", ds);
         MyTestClass.removeXMLFiles();
         assertTrue(xml1.exists());
     }

@@ -18,8 +18,8 @@ class KioskManagerTest
     DeviceOwner DeviceOwnerMocked;
     @Mock
     HomeLauncherManager  HomeLauncherManagerMocked;
-    @Mock
-    LockTaskManager      LockTaskManagerMocked;
+//    @Mock
+//    LockTaskManager      LockTaskManagerMocked;
     @Mock
     MainConfiguration MainConfigurationMocked;
 
@@ -28,7 +28,7 @@ class KioskManagerTest
     {
         DeviceOwnerMocked = null;
         HomeLauncherManagerMocked = null;
-        LockTaskManagerMocked = null;
+//        LockTaskManagerMocked = null;
         MainConfigurationMocked = null;
     }
 
@@ -41,7 +41,7 @@ class KioskManagerTest
         when(DeviceOwnerMocked.isLockTaskPermitted()).thenReturn(true);
 
         MyTestClass.becomeHomeActivity();
-        verify(LockTaskManagerMocked, times(1)).startLockTask();
+//        verify(LockTaskManagerMocked, times(1)).startLockTask();
         verify(HomeLauncherManagerMocked, times(1)).becomeHomeActivity(DeviceOwnerMocked);
     }
 
@@ -52,7 +52,7 @@ class KioskManagerTest
         when(DeviceOwnerMocked.isAdminActive()).thenReturn(false);
 
         MyTestClass.becomeHomeActivity();
-        verify(LockTaskManagerMocked, times(0)).startLockTask();
+//        verify(LockTaskManagerMocked, times(0)).startLockTask();
         verify(HomeLauncherManagerMocked, times(0)).becomeHomeActivity(DeviceOwnerMocked);
     }
 
@@ -64,7 +64,7 @@ class KioskManagerTest
         when(DeviceOwnerMocked.isDeviceOwner()).thenReturn(false);
 
         MyTestClass.becomeHomeActivity();
-        verify(LockTaskManagerMocked, times(0)).startLockTask();
+//        verify(LockTaskManagerMocked, times(0)).startLockTask();
         verify(HomeLauncherManagerMocked, times(0)).becomeHomeActivity(DeviceOwnerMocked);
     }
 
@@ -75,7 +75,7 @@ class KioskManagerTest
         when(DeviceOwnerMocked.isLockTaskPermitted()).thenReturn(false);
 
         MyTestClass.pin();
-        verify(LockTaskManagerMocked, times(0)).startLockTask();
+//        verify(LockTaskManagerMocked, times(0)).startLockTask();
     }
 
     @Test
@@ -154,9 +154,9 @@ class KioskManagerTest
     {
         DeviceOwnerMocked         = mock(DeviceOwner.class);
         HomeLauncherManagerMocked = mock(HomeLauncherManager.class);
-        LockTaskManagerMocked     = mock(LockTaskManager.class);
+//        LockTaskManagerMocked     = mock(LockTaskManager.class);
         MainConfigurationMocked   = mock(MainConfiguration.class);
-        return new KioskManager(DeviceOwnerMocked, HomeLauncherManagerMocked, LockTaskManagerMocked, MainConfigurationMocked);
+        return new KioskManager(DeviceOwnerMocked, HomeLauncherManagerMocked, null, MainConfigurationMocked);
     }
 
 }

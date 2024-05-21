@@ -57,12 +57,6 @@ android {
                     appIcon: "@drawable/ic_garlic_launcher"
             ]
         }
-        DS_DE {
-                dimension "brandings"
-                manifestPlaceholders = [
-                       appIcon: "@drawable/ic_ds_logo_mobile"
-                ]
-        }
     }
  }
 

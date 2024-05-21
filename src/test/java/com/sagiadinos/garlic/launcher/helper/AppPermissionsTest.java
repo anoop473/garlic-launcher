@@ -81,7 +81,7 @@ class AppPermissionsTest
         MainActivityMocked      = mock(Activity.class);
         when(MainActivityMocked.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)).thenReturn(1);
 
-        assertFalse(AppPermissions.hasStandardPermissions(MainActivityMocked));
+        assertFalse(AppPermissions.hasImportantPermissions(MainActivityMocked));
         verify(MainActivityMocked, times(1)).checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         verify(MainActivityMocked, never()).checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
     }
@@ -93,7 +93,7 @@ class AppPermissionsTest
         when(MainActivityMocked.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)).thenReturn(0);
         when(MainActivityMocked.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)).thenReturn(1);
 
-        assertFalse(AppPermissions.hasStandardPermissions(MainActivityMocked));
+        assertFalse(AppPermissions.hasImportantPermissions(MainActivityMocked));
 
         verify(MainActivityMocked, times(1)).checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         verify(MainActivityMocked, times(1)).checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -105,7 +105,7 @@ class AppPermissionsTest
         when(MainActivityMocked.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)).thenReturn(0);
         when(MainActivityMocked.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)).thenReturn(0);
 
-        assertTrue(AppPermissions.hasStandardPermissions(MainActivityMocked));
+        assertTrue(AppPermissions.hasImportantPermissions(MainActivityMocked));
 
         verify(MainActivityMocked, times(1)).checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         verify(MainActivityMocked, times(1)).checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -122,7 +122,7 @@ class AppPermissionsTest
         when(MainConfigurationMocked.isDeviceRooted()).thenReturn(true);
         when(ShellExecuteMocked.executeAsRoot(anyString())).thenReturn(true);
 
-        MyTestClass.handlePermissions(TextViewMocked, ShellExecuteMocked);
+        MyTestClass.handlePermissions(ShellExecuteMocked);
 
         verify(ShellExecuteMocked, times(3)).executeAsRoot(anyString());
         verify(ShellExecuteMocked, never()).getErrorText();
@@ -140,7 +140,7 @@ class AppPermissionsTest
         when(ShellExecuteMocked.executeAsRoot(anyString())).thenReturn(false);
         when(ShellExecuteMocked.getErrorText()).thenReturn("error");
 
-        MyTestClass.handlePermissions(TextViewMocked, ShellExecuteMocked);
+        MyTestClass.handlePermissions(ShellExecuteMocked);
 
         verify(ShellExecuteMocked, times(1)).executeAsRoot(anyString());
         verify(ShellExecuteMocked, times(1)).getErrorText();
@@ -162,7 +162,7 @@ class AppPermissionsTest
         when(MainConfigurationMocked.isDeviceRooted()).thenReturn(false);
         when(ShellExecuteMocked.executeAsRoot(anyString())).thenReturn(false);
 
-        MyTestClass.handlePermissions(TextViewMocked, ShellExecuteMocked);
+        MyTestClass.handlePermissions(ShellExecuteMocked);
 
         verify(ShellExecuteMocked, never()).executeAsRoot(anyString());
         verify(MainActivityMocked, times(1)).requestPermissions(PERMISSIONS_LIST, REQUEST_PERMISSIONS);

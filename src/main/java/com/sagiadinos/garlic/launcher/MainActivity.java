@@ -79,7 +79,6 @@ public class MainActivity extends Activity
     private boolean        has_player_started     = false;
     private boolean        is_countdown_running   = false;
 
-    private Button         btToggleServiceMode = null;
     private Button         btStartPlayer = null;
     private TextView       tvInformation   = null;
     private TextView       tvAppVersion    = null;
@@ -164,7 +163,7 @@ public class MainActivity extends Activity
         );
         if (MyDeviceOwner.isDeviceOwner())
         {
-            startLockTask();
+//            startLockTask();
 
             MyDeviceOwner.determinePermittedLockTaskPackages("");
             hideInformationText();
@@ -195,8 +194,9 @@ public class MainActivity extends Activity
     {
       //  handleDailyReboot();
         // Attention: MyDeviceOwner and dependent classes like MyKiosk can be null when access rights are denied
-        if (MyActivityManager.getLockTaskModeState() == ActivityManager.LOCK_TASK_MODE_NONE)
-        startLockTask();
+        if (MyActivityManager.getLockTaskModeState() == ActivityManager.LOCK_TASK_MODE_NONE){
+//            startLockTask();
+        }
 
         NavigationBar.show(this, MyMainConfiguration, new Intent(this, HUD.class));
         if (MyInfoLine != null)
@@ -209,7 +209,6 @@ public class MainActivity extends Activity
     public void onRestart()
     {
         // Attention: MyDeviceOwner and dependent classes like MyKiosk can be null when access rights are denied
-        toogleServiceModeVisibility();
         super.onRestart();
     }
 
@@ -293,7 +292,6 @@ public class MainActivity extends Activity
 
     private void initButtonViews()
     {
-        btToggleServiceMode  = findViewById(R.id.btToggleServiceMode);
         btStartPlayer        = findViewById(R.id.btStartPlayer);
         Button btAndroidSettings    = findViewById(R.id.btAndroidSettings);
 
@@ -307,17 +305,13 @@ public class MainActivity extends Activity
             btStartPlayer.setVisibility(View.INVISIBLE);
         }
 
-        toogleServiceModeVisibility();
-
         if (MyKiosk.isStrictKioskModeActive())
         {
             btStartPlayer.setEnabled(false);
-            btToggleServiceMode.setText(R.string.enter_service_mode);
         }
         else
         {
             btStartPlayer.setEnabled(true);
-            btToggleServiceMode.setText(R.string.enter_strict_mode);
             btAndroidSettings.setVisibility(View.VISIBLE);
         }
         MyKiosk.becomeHomeActivity();
@@ -365,13 +359,11 @@ public class MainActivity extends Activity
                     if (MyKiosk.isStrictKioskModeActive())
                     {
                         MyKiosk.toggleServiceMode(true);
-                        btToggleServiceMode.setText(R.string.enter_strict_mode);
                         MyDeviceOwner.deactivateRestrictions();
                     }
                     else
                     {
                         MyKiosk.toggleServiceMode(false);
-                        btToggleServiceMode.setText(R.string.enter_service_mode);
                         MyDeviceOwner.activateRestrictions();
                     }
                     recreate();
@@ -498,18 +490,6 @@ public class MainActivity extends Activity
             PlayerCountDown.cancel();
         }
         btStartPlayer.setText(R.string.play);
-    }
-
-    private void toogleServiceModeVisibility()
-    {
-        if (MyMainConfiguration.hasActiveServicePassword())
-        {
-            btToggleServiceMode.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            btToggleServiceMode.setVisibility(View.GONE);
-        }
     }
 
     private void cleanUp(String path)

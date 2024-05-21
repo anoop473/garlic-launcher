@@ -110,23 +110,15 @@ public class CommandReceiver extends BroadcastReceiver
   //      }
      }
 
-    private void reboot()
-    {
+    private void reboot() {
         String task_id = "";
-        if (MyIntent.getStringExtra("task_id") != null)
-        {
+        if (MyIntent.getStringExtra("task_id") != null) {
             task_id = MyIntent.getStringExtra("task_id");
         }
         TaskExecutionReport.append(task_id, "completed");
-        if (!BuildConfig.DEBUG)
-        {
-
-            DeviceOwner.reboot(
-                    (DevicePolicyManager) MyContext.getSystemService(Context.DEVICE_POLICY_SERVICE),
-                    new ComponentName(MyContext, AdminReceiver.class)
-            );
-
-
-        }
+        DeviceOwner.reboot(
+                (DevicePolicyManager) MyContext.getSystemService(Context.DEVICE_POLICY_SERVICE),
+                new ComponentName(MyContext, AdminReceiver.class)
+        );
     }
 }
