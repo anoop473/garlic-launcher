@@ -19,6 +19,7 @@
 
 package com.sagiadinos.garlic.launcher;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -29,6 +30,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -37,6 +39,7 @@ import android.os.CountDownTimer;
 
 import android.os.Environment;
 import android.os.StatFs;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -96,6 +99,8 @@ public class MainActivity extends Activity
     private ActivityManager     MyActivityManager;
     private DiscSpace           MyDiscSpace  = null;
     private InfoLine            MyInfoLine   = null;
+
+    private String              AccessibilityValue = "";
 
     @Override
     public void onRequestPermissionsResult(int request_code, @NonNull String[] permissions, @NonNull int[] grant_results)
@@ -169,6 +174,20 @@ public class MainActivity extends Activity
             hideInformationText();
             MyReceiverManager = new ReceiverManager(this);
             MyReceiverManager.registerAllReceiver();
+
+//            Check Permission and Enable AccessibilityService
+            if(this.checkSelfPermission(Manifest.permission.WRITE_SECURE_SETTINGS) == PackageManager.PERMISSION_GRANTED) {
+                AccessibilityValue = Settings.Secure.getString(getContentResolver(), "enabled_accessibility_services");
+                if(AccessibilityValue == null || AccessibilityValue.isEmpty() || !AccessibilityValue.contains("com.sagiadinos.garlic.launcher")){
+                    Settings.Secure.putString(getContentResolver(), "enabled_accessibility_services"
+                            , (AccessibilityValue == null ? ":" : AccessibilityValue + ":") + "com.sagiadinos.garlic.launcher/.services.MyAccessibilityService");
+                }
+            }
+            else{
+                displayInformationText("Important permissions missing. Please give permissions and restart!");
+                return;
+            }
+
             initButtonViews();
             startService(new Intent(this, WatchDogService.class)); // this is ok no nesting or leaks
             checkForInstalledPlayer();
@@ -189,7 +208,7 @@ public class MainActivity extends Activity
         checkForNetWork();
     }
 
-      @Override
+    @Override
     protected void onResume()
     {
       //  handleDailyReboot();
@@ -231,7 +250,7 @@ public class MainActivity extends Activity
                 MyScreen.isEventInPermitUIArea((int)event.getX(), (int)event.getY()))
         {
             stopPlayerRestart();
-            stopLockTask();
+//            stopLockTask();
 
             // start other Launcher Activity
             ResolveInfo resolveInfo = Installer.determineOtherLauncherPackagename(getPackageManager());
